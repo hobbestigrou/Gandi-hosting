@@ -1,20 +1,19 @@
 #!/usr/bin/perl 
 #===============================================================================
 #
-#         FILE:  essai1000.pl
+#         FILE:  gandi-hosting.pl
 #
-#        USAGE:  ./essai1000.pl 
+#        USAGE:  ./gandi-hosting.pl 
 #
-#  DESCRIPTION:  
+#  DESCRIPTION:  A CLI utility to manage your Gandi hosting resources.
 #
-#      OPTIONS:  ---
-# REQUIREMENTS:  ---
+#      OPTIONS:  vmlist
+# REQUIREMENTS:  Config::IniFiles, File::HomeDir
 #         BUGS:  ---
 #        NOTES:  ---
-#       AUTHOR:   (), <>
-#      COMPANY:  
-#      VERSION:  1.0
-#      CREATED:  12/12/2010 13:26:03 CET
+#       AUTHOR:   (Natal Ngétal), <hobbestig@cpan.org>
+#      VERSION:  0.1
+#      CREATED:  14/12/2010 13:26:03 CET
 #     REVISION:  ---
 #===============================================================================
 
@@ -25,25 +24,32 @@ use Getopt::Long;
 use Switch;
 use Config::IniFiles;
 use File::HomeDir qw(home);
-use Data::Dumper;
 
+#Config 
 my $file = home() . "/.gandi-hostingsrc";
-
 if ( ! -e $file ) {
     die "You must have a config file ~/.gandi-hostingsrc", "\n";
 }
+my $cfg     = Config::IniFiles->new( -file => $file );
+my $api_key = $cfg->val('gandi', 'api_key');
 
-my $cfg  = Config::IniFiles->new( -file => $file );
-
+#Get arguments
 my %opts;
 GetOptions ( \%opts, "vmlist");
 
+#Dispatch to good function
 switch (%opts) {
     case ('vmlist')  { vm_list() }
 }
 
+=head1 vm_list 
+
+To list all vm.
+
+=cut
+
 sub vm_list {
-    my $vm       = Net::Gandi::Hosting::VM->new(apikey => $cfg->val('gandi', 'api_key'));
+    my $vm       = Net::Gandi::Hosting::VM->new(apikey => $api_key);
     my $vm_lists = $vm->list();
 
     if ( ! $vm_lists ) {
@@ -56,6 +62,12 @@ sub vm_list {
         }
     }
 }
+
+=head1 object_parse
+
+Parse object returned, and format for printing
+
+=cut
 
 sub object_parse {
     my ( $object ) = @_;
