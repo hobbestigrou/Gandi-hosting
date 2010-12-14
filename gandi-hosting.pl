@@ -25,6 +25,7 @@ use Getopt::Long;
 use Switch;
 use Config::IniFiles;
 use File::HomeDir qw(home);
+use Data::Dumper;
 
 my $file = home() . "/.gandi-hostingsrc";
 
@@ -51,26 +52,30 @@ sub vm_list {
     }
     else {
         foreach my $vm_list (@{$vm_lists}) {
-	    while (my ( $key, $value ) = each(%$vm_list)) {
-	        if ( $key =~ m/name/ ) {
-		    print "Information about $value ";
-	        }
-                if ( $key =~ m/disks_id/ || $key =~ m/ifaces_id/ ) {
-		    my $name = "Disks lists: ";
-		    if ( $key  =~ m/ifaces_id/ ) {
-		        $name = "Ifaces lists: ";
-		    }
-		    foreach my $array (@{$vm_list->{$key}}) {
-		        print "$name $array, ", "\n";
-		    }
-	        }
-	       else {
-	           if ( ! $value ) {
-		       $value = 'None';
-		   }
-		   print "$key: $value", "\n";
-	       } 
-	    }
+            object_parse($vm_list, ['disks_id', 'ifaces_id']);
         }
+    }
+}
+
+sub object_parse {
+    my ( $object, $array ) = @_;
+    my %name_list = ( disks_id => 'Disks lists: ', ifaces_id => 'Iface lists: ' );
+
+    while ( my( $key, $value ) = each(%$object)) {
+         foreach my $list (@$array) {
+            if ( $key =~ m/$list/ ) {
+                my $name = $name_list{$list};
+                foreach my $a (@{$object->{$key}}) {
+                    print "$name $a, ", "\n";
+                }
+            }
+            else {
+                next;
+            }
+         }
+         if ( ! $value ) {
+            $value = 'None';
+         }
+         print "$key: $value", "\n";
     }
 }
