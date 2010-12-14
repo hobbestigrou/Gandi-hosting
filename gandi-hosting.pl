@@ -23,6 +23,7 @@ use Net::Gandi;
 use Getopt::Long;
 use Config::IniFiles;
 use File::HomeDir qw(home);
+use Pod::Usage;
 
 #GLOBAL
 my $cfg;
@@ -43,10 +44,17 @@ sub run {
 
     #Get arguments
     my %opts;
-    GetOptions ( \%opts, "vmlist");
+    GetOptions ( \%opts, "vmlist", "help") or help(1);
 
     #Dispatch to good function
     vm_list() if $opts{vmlist};
+    help(2)   if $opts{help};
+}
+
+sub help {
+    my ( $level ) = @_;
+    require Pod::Usage;
+    pod2usage($level);
 }
 
 =head1 vm_list 
@@ -111,4 +119,35 @@ sub object_parse {
         }
     }
 }
+
+
+__END__
+
+=head1 NAME
+
+gandi-hosting - A CLI utility to manage your Gandi hosting resources.
+
+=head1 SYNOPSIS
+
+    gandi-hosting <options>
+
+    options:
+      -vmlist      print all vm 
+
+=head1 OPTIONS
+
+=over
+
+=item B<--vmlist>
+
+Print all vm 
+
+=back 
+
+=head1 DESCRIPTION
+
+This program is a simple command-line interface to Net::Gandi.
+Help to manage your Gandi hosting resources.
+
+=cut
 
