@@ -52,35 +52,30 @@ sub vm_list {
     }
     else {
         foreach my $vm_list (@{$vm_lists}) {
-            object_parse($vm_list, ['disks_id', 'ifaces_id']);
+            object_parse($vm_list);
         }
     }
 }
 
 sub object_parse {
-    my ( $object, $array ) = @_;
+    my ( $object ) = @_;
     my %name_list = ( disks_id => 'Disks lists: ', ifaces_id => 'Iface lists: ' );
 
     while ( my( $key, $value ) = each(%$object)) {
-         foreach my $list (@$array) {
-             if ( $key =~ m/$list/ ) {
-                 my $name = $name_list{$list};
-                 foreach my $a (@{$object->{$key}}) {
-                     print "$name $a, ", "\n";
-                 }
-             }
-             else {
-                 next;
-             }
-         }
-         if ( ! $value ) {
-             $value = 'None';
-         }
-         elsif ( ref($value) eq 'ARRAY' ) {
-             print '';
-         }
-         else {
-             print "$key: $value", "\n";
-         }
+        my $name = $name_list{$key};
+
+        if ( ref($value) eq 'ARRAY' ) {
+            foreach my $id (@{$object->{$key}}) {
+                print "$name $id, ", "\n";
+            }
+        }
+        else {
+            if ( ! $value ) {
+                $value = 'None';
+            }
+            else {
+                print "$key: $value", "\n";
+            }
+        }
     }
 }
