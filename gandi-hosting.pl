@@ -24,8 +24,10 @@ use Net::Gandi;
 use Getopt::Long;
 use Switch;
 use Config::IniFiles;
+use File::HomeDir qw(home);
 
-my $cfg = Config::IniFiles->new( -file => ".gandi-hostingsrc" );
+my $file = home() . "/.gandi-hostingsrc";
+my $cfg  = Config::IniFiles->new( -file => $file );
 
 my %opts;
 GetOptions ( \%opts, "vmlist");
