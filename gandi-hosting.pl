@@ -76,6 +76,11 @@ sub object_parse {
          if ( ! $value ) {
              $value = 'None';
          }
-         print "$key: $value", "\n";
+         elsif ( ref($value) eq 'ARRAY' ) {
+             print '';
+         }
+         else {
+             print "$key: $value", "\n";
+         }
     }
 }
