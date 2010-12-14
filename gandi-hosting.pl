@@ -59,7 +59,20 @@ sub vm_list {
 
 sub object_parse {
     my ( $object ) = @_;
-    my %name_list = ( disks_id => 'Disks lists: ', ifaces_id => 'Iface lists: ' );
+    my %name_list = (
+        shares        => 'Shares',
+        date_created  => 'Date created',
+        hostname      => 'Hostname',
+        state         => 'State',
+        vm_max_memory => 'Vm Max memory',
+        id            => 'Id',
+        datacenter_id => 'Datacenter',
+        date_updated  => 'Date updated',
+        cores         => 'Cores',
+        memory        => 'Memory',
+        disks_id      => 'Disks lists:', 
+        ifaces_id     => 'Iface lists:' 
+    );
 
     while ( my( $key, $value ) = each(%$object)) {
         my $name = $name_list{$key};
@@ -74,7 +87,7 @@ sub object_parse {
                 $value = 'None';
             }
             else {
-                print "$key: $value", "\n";
+                print "$name: $value", "\n";
             }
         }
     }
