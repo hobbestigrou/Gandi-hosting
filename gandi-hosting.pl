@@ -23,6 +23,9 @@ use warnings;
 use Net::Gandi;
 use Getopt::Long;
 use Switch;
+use Config::IniFiles;
+
+my $cfg = Config::IniFiles->new( -file => ".gandi-hostingsrc" );
 
 my %opts;
 GetOptions ( \%opts, "vmlist");
@@ -32,7 +35,7 @@ switch (%opts) {
 }
 
 sub vm_list {
-    my $vm       = Net::Gandi::Hosting::VM->new(apikey => 'd7iDsBNAw1U3AV6UuQy7v6Hs');
+    my $vm       = Net::Gandi::Hosting::VM->new(apikey => $cfg->val('gandi', 'api_key'));
     my $vm_lists = $vm->list();
 
     if ( ! $vm_lists ) {
