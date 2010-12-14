@@ -27,6 +27,11 @@ use Config::IniFiles;
 use File::HomeDir qw(home);
 
 my $file = home() . "/.gandi-hostingsrc";
+
+if ( ! -e $file ) {
+    die "You must have a config file ~/.gandi-hostingsrc", "\n";
+}
+
 my $cfg  = Config::IniFiles->new( -file => $file );
 
 my %opts;
