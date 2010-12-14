@@ -21,25 +21,32 @@ use strict;
 use warnings;
 use Net::Gandi;
 use Getopt::Long;
-use Switch;
 use Config::IniFiles;
 use File::HomeDir qw(home);
 
-#Config 
-my $file = home() . "/.gandi-hostingsrc";
-if ( ! -e $file ) {
-    die "You must have a config file ~/.gandi-hostingsrc", "\n";
+#GLOBAL
+my $cfg;
+my $api_key;
+
+MAIN: {
+    run() unless caller();
 }
-my $cfg     = Config::IniFiles->new( -file => $file );
-my $api_key = $cfg->val('gandi', 'api_key');
 
-#Get arguments
-my %opts;
-GetOptions ( \%opts, "vmlist");
+sub run {
+    #Config 
+    my $file = home() . "/.gandi-hostingrc";
+    if ( ! -e $file ) {
+        die "You must have a config file ~/.gandi-hostingrc", "\n";
+    }
+    $cfg     = Config::IniFiles->new( -file => $file );
+    $api_key = $cfg->val('gandi', 'api_key');
 
-#Dispatch to good function
-switch (%opts) {
-    case ('vmlist')  { vm_list() }
+    #Get arguments
+    my %opts;
+    GetOptions ( \%opts, "vmlist");
+
+    #Dispatch to good function
+    vm_list() if $opts{vmlist};
 }
 
 =head1 vm_list 
@@ -104,3 +111,4 @@ sub object_parse {
         }
     }
 }
+
