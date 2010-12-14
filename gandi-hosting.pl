@@ -63,18 +63,18 @@ sub object_parse {
 
     while ( my( $key, $value ) = each(%$object)) {
          foreach my $list (@$array) {
-            if ( $key =~ m/$list/ ) {
-                my $name = $name_list{$list};
-                foreach my $a (@{$object->{$key}}) {
-                    print "$name $a, ", "\n";
-                }
-            }
-            else {
-                next;
-            }
+             if ( $key =~ m/$list/ ) {
+                 my $name = $name_list{$list};
+                 foreach my $a (@{$object->{$key}}) {
+                     print "$name $a, ", "\n";
+                 }
+             }
+             else {
+                 next;
+             }
          }
          if ( ! $value ) {
-            $value = 'None';
+             $value = 'None';
          }
          print "$key: $value", "\n";
     }
