@@ -47,6 +47,8 @@ sub run {
     GetOptions ( \%opts, 
         "vmlist", 
          "vminfo=i",
+         "disklist",
+         "diskinfo=i",
          "ifacelist",
          "ifaceinfo=i",
          "iplist",
@@ -57,6 +59,8 @@ sub run {
     #Dispatch to good function
     vm_list()                    if $opts{vmlist};
     vm_info($opts{vminfo})       if $opts{vminfo};
+    disk_list()                  if $opts{disklist};
+    disk_info($opts{diskinfo})   if $opts{diskinfo};
     iface_list()                 if $opts{ifacelist};
     iface_info($opts{ifaceinfo}) if $opts{ifaceinfo};
     ip_list()                    if $opts{iplist};
@@ -97,6 +101,29 @@ sub vm_info {
     my $vm_info   = $vm->info();
 
     object_parse($vm_info) if $vm_info;
+}
+
+sub disk_list {
+    my $disk       = Net::Gandi::Hosting::Disk->new(apikey => $api_key);
+    my $disk_lists = $disk->list();
+
+    if ( ! $disk_lists ) {
+        print "You don't have disk";
+        return;
+    }
+    else {
+        foreach my $disk_list (@{$disk_lists}) {
+            object_parse($disk_list);
+        }
+    }
+}
+
+sub disk_info {
+    my ( $disk_id ) = @_;
+    my $disk        = Net::Gandi::Hosting::Disk->new(apikey => $api_key, id => $disk_id);
+    my $disk_info   = $disk->info();
+
+    object_parse($disk_info) if $disk_info;
 }
 
 sub iface_list {
@@ -211,6 +238,8 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
     options:
       --vmlist                       print all vm 
       --vminfo=42 | --vminfo 42      print info of the vm
+      --disklist                     print all disk
+      --diskinfo=42 | --diskinfo 42  print info about disk
       --ifacelist                    print all ifaces
       --ifaceinfo=42 | ifaceinfo 42  print info of the iface
       --iplist                       print all ip
@@ -228,6 +257,14 @@ Print all vm
 =item B<--vminfo=42 | --vminfo 42>
 
 Print information of the vm
+
+=item B<--disklist>
+
+Print all disk
+
+=item B<--diskinfo=42 | --diskinfo 42>
+
+Print information about disk
 
 =item B<--ifacelist>
 
