@@ -48,14 +48,16 @@ sub run {
         "vmlist", 
          "vminfo=i",
          "ifacelist",
+         "ifaceinfo=i",
          "help"
     ) or help(1);
 
     #Dispatch to good function
-    vm_list()              if $opts{vmlist};
-    vm_info($opts{vminfo}) if $opts{vminfo};
-    iface_list()           if $opts{ifacelist};
-    help(2)                if $opts{help};
+    vm_list()                    if $opts{vmlist};
+    vm_info($opts{vminfo})       if $opts{vminfo};
+    iface_list()                 if $opts{ifacelist};
+    iface_info($opts{ifaceinfo}) if $opts{ifaceinfo};
+    help(2)                      if $opts{help};
 }
 
 sub help {
@@ -106,6 +108,17 @@ sub iface_list {
             object_parse($iface_list);
         }
     }
+}
+
+sub iface_info {
+    my ( $iface_id ) = @_;
+    my $iface        = Net::Gandi::Hosting::Iface->new(
+        apikey => $api_key, 
+        id => $iface_id
+    );
+    my $iface_info   = $iface->info();
+
+    object_parse($iface_info) if $iface_info;
 }
 
 =head1 object_parse
@@ -172,6 +185,7 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
       --vmlist                       print all vm 
       --vminfo=42 | --vminfo 42      print info of the vm
       --ifacelist                    print all ifaces
+      --ifaceinfo=42 | ifaceinfo 42  print info of the iface
       --help                         print this message
 
 =head1 OPTIONS
@@ -188,7 +202,11 @@ Print information of the vm
 
 =item B<--ifacelist>
 
-Print all ifaces.
+Print all ifaces
+
+=item B<--ifaceinfo=42 | --ifaceinfo 42>
+
+Print information of the iface
 
 =item B<--help>
 
