@@ -152,7 +152,9 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
     gandi-hosting <options>
 
     options:
-      -vmlist      print all vm 
+      -vmlist                        print all vm 
+      --vminfo=42 | --vminfo 42      print info of the vm
+      --help                         print this message
 
 =head1 OPTIONS
 
@@ -161,6 +163,14 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
 =item B<--vmlist>
 
 Print all vm 
+
+=item B<--vminfo=42 | --vminfo 42>
+
+Print information of the vm
+
+=item B<--help>
+
+Print help message
 
 =back 
 
