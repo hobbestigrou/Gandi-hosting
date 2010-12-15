@@ -136,7 +136,7 @@ sub object_parse {
     );
 
     while ( my( $key, $value ) = each(%$object)) {
-        my $name = $name_list{$key};
+        my $name = $name_list{$key} || $key;
 
         if ( ref($value) eq 'ARRAY' ) {
             foreach my $id (@{$object->{$key}}) {
