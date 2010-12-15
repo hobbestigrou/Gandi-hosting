@@ -111,7 +111,11 @@ sub object_parse {
         cores         => 'Cores',
         memory        => 'Memory',
         disks_id      => 'Disks lists:', 
-        ifaces_id     => 'Iface lists:' 
+        ifaces_id     => 'Iface lists:',
+        graph_urls    => 'Url of the graph:',
+        vif           => 'Url graph for vif:',
+        vdi           => 'Url graph for vdi:',
+        vcpu          => 'Url graph for vcpu:',
     );
 
     while ( my( $key, $value ) = each(%$object)) {
@@ -121,6 +125,9 @@ sub object_parse {
             foreach my $id (@{$object->{$key}}) {
                 print "$name $id, ", "\n";
             }
+        }
+        elsif ( ref($value) eq 'HASH' ) {
+            object_parse($value);
         }
         else {
             if ( ! $value ) {
