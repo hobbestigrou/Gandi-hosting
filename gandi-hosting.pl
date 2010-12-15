@@ -50,6 +50,7 @@ sub run {
          "ifacelist",
          "ifaceinfo=i",
          "iplist",
+         "ipinfo=i",
          "help"
     ) or help(1);
 
@@ -59,6 +60,7 @@ sub run {
     iface_list()                 if $opts{ifacelist};
     iface_info($opts{ifaceinfo}) if $opts{ifaceinfo};
     ip_list()                    if $opts{iplist};
+    ip_info($opts{ipinfo})       if $opts{ipinfo};
     help(2)                      if $opts{help};
 }
 
@@ -138,6 +140,14 @@ sub ip_list {
     }
 }
 
+sub ip_info {
+    my ( $ip_id ) = @_;
+    my $ip      = Net::Gandi::Hosting::IP->new(apikey => $api_key, id => $ip_id);
+    my $ip_info = $ip->info();
+
+    object_parse($ip_info) if $ip_info;
+}
+
 =head1 object_parse
 
 Parse object returned, and format for printing
@@ -204,6 +214,7 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
       --ifacelist                    print all ifaces
       --ifaceinfo=42 | ifaceinfo 42  print info of the iface
       --iplist                       print all ip
+      --ipinfo                       print info about ip
       --help                         print this message
 
 =head1 OPTIONS
@@ -229,6 +240,10 @@ Print information of the iface
 =item B<--iplist>
 
 Print all ip
+
+=item B<--ipinfo=42 | --ipinfo 42>
+
+Print inforamation about ip
 
 =item B<--help>
 
