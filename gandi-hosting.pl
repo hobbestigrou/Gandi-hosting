@@ -47,12 +47,14 @@ sub run {
     GetOptions ( \%opts, 
         "vmlist", 
          "vminfo=i",
+         "ifacelist",
          "help"
     ) or help(1);
 
     #Dispatch to good function
     vm_list()              if $opts{vmlist};
     vm_info($opts{vminfo}) if $opts{vminfo};
+    iface_list()           if $opts{ifacelist};
     help(2)                if $opts{help};
 }
 
@@ -89,6 +91,21 @@ sub vm_info {
     my $vm_info   = $vm->info();
 
     object_parse($vm_info) if $vm_info;
+}
+
+sub iface_list {
+    my $iface       = Net::Gandi::Hosting::Iface->new(apikey => $api_key);
+    my $iface_lists = $iface->list();
+
+    if ( ! $iface_lists ) {
+        print "You don't have iface";
+        return;
+    }
+    else {
+        foreach my $iface_list (@{$iface_lists}) {
+            object_parse($iface_list);
+        }
+    }
 }
 
 =head1 object_parse
@@ -152,8 +169,9 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
     gandi-hosting <options>
 
     options:
-      -vmlist                        print all vm 
+      --vmlist                       print all vm 
       --vminfo=42 | --vminfo 42      print info of the vm
+      --ifacelist                    print all ifaces
       --help                         print this message
 
 =head1 OPTIONS
@@ -167,6 +185,10 @@ Print all vm
 =item B<--vminfo=42 | --vminfo 42>
 
 Print information of the vm
+
+=item B<--ifacelist>
+
+Print all ifaces.
 
 =item B<--help>
 
