@@ -44,11 +44,16 @@ sub run {
 
     #Get arguments
     my %opts;
-    GetOptions ( \%opts, "vmlist", "help") or help(1);
+    GetOptions ( \%opts, 
+        "vmlist", 
+         "vminfo=i",
+         "help"
+    ) or help(1);
 
     #Dispatch to good function
-    vm_list() if $opts{vmlist};
-    help(2)   if $opts{help};
+    vm_list()              if $opts{vmlist};
+    vm_info($opts{vminfo}) if $opts{vminfo};
+    help(2)                if $opts{help};
 }
 
 sub help {
@@ -76,6 +81,14 @@ sub vm_list {
             object_parse($vm_list);
         }
     }
+}
+
+sub vm_info {
+    my ( $vm_id ) = @_;
+    my $vm        = Net::Gandi::Hosting::VM->new(apikey => $api_key, id => $vm_id);
+    my $vm_info   = $vm->info();
+
+    object_parse($vm_info) if $vm_info;
 }
 
 =head1 object_parse
