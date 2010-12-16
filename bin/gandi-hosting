@@ -8,7 +8,7 @@
 #  DESCRIPTION:  A CLI utility to manage your Gandi hosting resources.
 #
 #      OPTIONS:  vmlist
-# REQUIREMENTS:  Config::IniFiles, File::HomeDir
+# REQUIREMENTS:  Config::IniFiles, File::HomeDir, Net::Gandi
 #         BUGS:  ---
 #        NOTES:  ---
 #       AUTHOR:   (Natal Ngétal), <hobbestig@cpan.org>

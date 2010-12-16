@@ -3,7 +3,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME          => 'Net::Gandi',
+    NAME          => 'gandi-hosting',
     AUTHOR        => q{Natal Ngétal <hobbestig@cpan.org>},
     VERSION_FROM  => 'bin/gandi-hosting',
     ABSTRACT      => 'A CLI utility to manage your Gandi hosting resources',
