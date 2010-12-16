@@ -244,6 +244,8 @@ __END__
 
 gandi-hosting - A CLI utility to manage your Gandi hosting resources.
 
+=encoding utf-8
+
 =head1 SYNOPSIS
 
     gandi-hosting <options>
