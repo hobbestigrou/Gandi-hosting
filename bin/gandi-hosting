@@ -248,11 +248,11 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
 
     options:
       --vmlist                       print all vm 
-      --vminfo=42 | --vminfo 42      print info of the vm
+      --vminfo=42 | --vminfo 42      print info about vm
       --disklist                     print all disk
       --diskinfo=42 | --diskinfo 42  print info about disk
       --ifacelist                    print all ifaces
-      --ifaceinfo=42 | ifaceinfo 42  print info of the iface
+      --ifaceinfo=42 | ifaceinfo 42  print info about iface
       --iplist                       print all ip
       --ipinfo                       print info about ip
       --help                         print this message
@@ -267,7 +267,7 @@ Print all vm
 
 =item B<--vminfo=42 | --vminfo 42>
 
-Print information of the vm
+Print information about vm
 
 =item B<--disklist>
 
@@ -283,7 +283,7 @@ Print all ifaces
 
 =item B<--ifaceinfo=42 | --ifaceinfo 42>
 
-Print information of the iface
+Print information about iface
 
 =item B<--iplist>
 
