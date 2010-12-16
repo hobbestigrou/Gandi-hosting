@@ -55,6 +55,7 @@ sub run {
          "ifaceinfo=i",
          "iplist",
          "ipinfo=i",
+         "version",
          "help"
     ) or help(1);
 
@@ -67,6 +68,7 @@ sub run {
     iface_info($opts{ifaceinfo}) if $opts{ifaceinfo};
     ip_list()                    if $opts{iplist};
     ip_info($opts{ipinfo})       if $opts{ipinfo};
+    print $VERSION, "\n"         if $opts{version};
     help(2)                      if $opts{help};
 }
 
@@ -255,6 +257,7 @@ gandi-hosting - A CLI utility to manage your Gandi hosting resources.
       --ifaceinfo=42 | ifaceinfo 42  print info about iface
       --iplist                       print all ip
       --ipinfo                       print info about ip
+      --version                      print the version
       --help                         print this message
 
 =head1 OPTIONS
@@ -292,6 +295,10 @@ Print all ip
 =item B<--ipinfo=42 | --ipinfo 42>
 
 Print inforamation about ip
+
+=item B<--version>
+
+Print the version
 
 =item B<--help>
 
