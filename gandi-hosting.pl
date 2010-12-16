@@ -210,22 +210,25 @@ sub translate {
     my ( $key ) = @_;
 
     my %en = (
-        shares        => 'Shares',
-        date_created  => 'Date created',
-        hostname      => 'Hostname',
-        state         => 'State',
-        vm_max_memory => 'Vm Max memory',
-        id            => 'Id',
-        datacenter_id => 'Datacenter',
-        date_updated  => 'Date updated',
-        cores         => 'Cores',
-        memory        => 'Memory',
-        disks_id      => 'Disks lists:', 
-        ifaces_id     => 'Iface lists:',
-        graph_urls    => 'Url of the graph:',
-        vif           => 'Url graph for vif:',
-        vdi           => 'Url graph for vdi:',
-        vcpu          => 'Url graph for vcpu:',
+        shares         => 'Shares',
+        date_created   => 'Date created',
+        hostname       => 'Hostname',
+        state          => 'State',
+        vm_max_memory  => 'Vm Max memory',
+        id             => 'Id',
+        datacenter_id  => 'Datacenter',
+        date_updated   => 'Date updated',
+        cores          => 'Cores',
+        memory         => 'Memory',
+        disks_id       => 'Disks lists:', 
+        ifaces_id      => 'Iface lists:',
+        graph_urls     => 'Url of the graph:',
+        vif            => 'Url graph for vif:',
+        vdi            => 'Url graph for vdi:',
+        vcpu           => 'Url graph for vcpu:',
+        kernel_version => 'Kernel version',
+        is_boot_disk   => 'Is boot disk',
+        vms_id         => 'Vm list:'
     );
 
     return $en{$key};
