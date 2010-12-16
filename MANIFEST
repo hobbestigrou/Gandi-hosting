@@ -1,0 +1,6 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+bin/gandi-hosting
+t/00-load.t
