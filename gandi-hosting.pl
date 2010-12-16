@@ -183,27 +183,9 @@ Parse object returned, and format for printing
 
 sub object_parse {
     my ( $object ) = @_;
-    my %name_list = (
-        shares        => 'Shares',
-        date_created  => 'Date created',
-        hostname      => 'Hostname',
-        state         => 'State',
-        vm_max_memory => 'Vm Max memory',
-        id            => 'Id',
-        datacenter_id => 'Datacenter',
-        date_updated  => 'Date updated',
-        cores         => 'Cores',
-        memory        => 'Memory',
-        disks_id      => 'Disks lists:', 
-        ifaces_id     => 'Iface lists:',
-        graph_urls    => 'Url of the graph:',
-        vif           => 'Url graph for vif:',
-        vdi           => 'Url graph for vdi:',
-        vcpu          => 'Url graph for vcpu:',
-    );
 
     while ( my( $key, $value ) = each(%$object)) {
-        my $name = $name_list{$key} || $key;
+        my $name = translate($key) || $key;
 
         if ( ref($value) eq 'ARRAY' ) {
             foreach my $id (@{$object->{$key}}) {
@@ -224,6 +206,30 @@ sub object_parse {
     }
 }
 
+sub translate {
+    my ( $key ) = @_;
+
+    my %en = (
+        shares        => 'Shares',
+        date_created  => 'Date created',
+        hostname      => 'Hostname',
+        state         => 'State',
+        vm_max_memory => 'Vm Max memory',
+        id            => 'Id',
+        datacenter_id => 'Datacenter',
+        date_updated  => 'Date updated',
+        cores         => 'Cores',
+        memory        => 'Memory',
+        disks_id      => 'Disks lists:', 
+        ifaces_id     => 'Iface lists:',
+        graph_urls    => 'Url of the graph:',
+        vif           => 'Url graph for vif:',
+        vdi           => 'Url graph for vdi:',
+        vcpu          => 'Url graph for vcpu:',
+    );
+
+    return $en{$key};
+}
 
 __END__
 
